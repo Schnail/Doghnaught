@@ -160,9 +160,3 @@ def cross(vec1 : Vector3d, vec2 : Vector3d) -> Vector3d:
 
 #------------------------------------------------------------------- 
 
-test1 = Vector3d(0,4,5)     
-test2 = Vector3d(5,7,-3)
-
-print(dot(test1, test2))
-
-print(cross(test1, test2))
