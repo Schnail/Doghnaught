@@ -1,15 +1,16 @@
 from __future__ import annotations
 from Vector import *
 import json
-import math
 
 class GridObject:
-    def __init__(self, name : str, position : Vector3d , rotation : Vector3d, scale : Vector3d, vertecies : list[GridVertex]):
+    def __init__(self, name : str, position : Vector3d , rotation : Vector3d, scale : Vector3d, vertecies : list[GridVertex], parent : GridObject = None):
         self.name = name
         self.pos = position
+        self.bpos = position
         self.rot = rotation
         self.scale = scale
         self.verts = vertecies
+        self.parent = parent
         
     def __str__(self):
         return f"GridObject '{self.name}' at position {self.pos} with rotation {self.rot} containing {len(self.verts)} vertecies"
@@ -25,6 +26,24 @@ class GridObject:
         for vert in self.verts[index:]:
             vert.id += -1
         return oldVert
+    
+    def move(self, vector : Vector3d) -> GridObject:
+        self.pos += vector
+        return self
+    
+    def addrotation(self, rotation : Vector3d) -> GridObject:
+        self.rot += rotation
+        return self
+    
+    def scaleXYZ(self, factor : Vector3d) -> GridObject:
+        self.scale = self.scale * factor
+        return self.copy()
+    
+    """def transforms(self) -> GridObject:
+        if self.parent == None:
+            return self
+        else:
+            Parent = self.parent.transforms()"""
     
     def makeFile(self):
         verts = []
@@ -53,6 +72,13 @@ class GridVertex:
     def paint(self, color : Vector3d) -> GridVertex:
         self.color = color
         return self
+    
+    def world(self) -> GridVertex:
+        wpos = self.pos * self.parent.scale
+        wpos = rotatevector(wpos, self.parent.rot)
+        wpos += self.parent.pos 
+        
+        return GridVertex(self.id, wpos, self.color, self.parent)
         
 #-------------------------------------------------------------------
 

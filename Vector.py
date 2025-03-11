@@ -1,4 +1,5 @@
 from __future__ import annotations
+import numpy as np
 import math
 
 class Vector2d:
@@ -140,6 +141,11 @@ class Vector3d:
     def normalize(self) -> Vector3d:
         return self / self.len()
     
+    def rotate(self, rotator : Vector3d) -> Vector3d:
+        
+        
+        return Vector3d()
+    
 #-------------------------------------------------------------------   
        
 def dot(vec1 : Vector2d | Vector3d, vec2 : Vector2d | Vector3d) -> float:
@@ -156,7 +162,43 @@ def cross(vec1 : Vector3d, vec2 : Vector3d) -> Vector3d:
     nvec1 = vec1.normalize()
     nvec2 = vec2.normalize()
     
-    return Vector3d((nvec1.y * nvec2.z) - (nvec1.z * nvec2.y), (nvec1.z * nvec2.x) - (nvec1.x * nvec2.z), (nvec1.x * nvec2.y) - (nvec1.y * nvec2.x))        
+    return Vector3d((nvec1.y * nvec2.z) - (nvec1.z * nvec2.y), (nvec1.z * nvec2.x) - (nvec1.x * nvec2.z), (nvec1.x * nvec2.y) - (nvec1.y * nvec2.x))     
+ 
+    
+    
+#can't bother to understand vector rotation right now. taking numpy operations for just this. should really use quaternion but oh well...    
+def rotatevector(vector : Vector3d, rotator : Vector3d):
+    v = [vector.x, vector.y, vector.z]
+    
+    pitch = rotator.x
+    yaw = rotator.y
+    roll = rotator.z
+    
+    # Convert angles to radians
+    roll, pitch, yaw = np.radians([roll, pitch, yaw])
+    
+    # Rotation matrices
+    Rx = np.array([[1, 0, 0],
+                   [0, np.cos(roll), -np.sin(roll)],
+                   [0, np.sin(roll), np.cos(roll)]])
+    
+    Ry = np.array([[np.cos(pitch), 0, np.sin(pitch)],
+                   [0, 1, 0],
+                   [-np.sin(pitch), 0, np.cos(pitch)]])
+    
+    Rz = np.array([[np.cos(yaw), -np.sin(yaw), 0],
+                   [np.sin(yaw), np.cos(yaw), 0],
+                   [0, 0, 1]])
+    
+    # Apply rotations in ZYX order
+    R = Rz @ Ry @ Rx
+    v_rotated = R @ v
+    
+    return Vector3d(round(float(v_rotated[0]),15),round(float(v_rotated[1]),15),round(float(v_rotated[2]),15))
 
 #------------------------------------------------------------------- 
 
+test1 = Vector3d(0,1,0)
+test2 = Vector3d(90,0,0)
+
+#print(rotatevector(test1,test2))
