@@ -56,9 +56,10 @@ class GridObject:
 #-------------------------------------------------------------------
 
 class GridVertex:
-    def __init__(self, index : int, position : Vector3d, color : Vector3d = Vector3d(256,256,256), parent : GridObject = None):
+    def __init__(self, index : int, position : Vector3d, normal : Vector3d = Vector3d(1,1,1), color : Vector3d = Vector3d(256,256,256), parent : GridObject = None):
         self.id = index
         self.pos = position
+        self.normal = normal.normalize()
         self.color = color
         self.parent = parent
         
@@ -77,8 +78,9 @@ class GridVertex:
         wpos = self.pos * self.parent.scale
         wpos = rotatevector(wpos, self.parent.rot)
         wpos += self.parent.pos 
+        wnormal = rotatevector(self.normal, self.parent.rot)
         
-        return GridVertex(self.id, wpos, self.color, self.parent)
+        return GridVertex(self.id, wpos, wnormal, self.color, self.parent)
         
 #-------------------------------------------------------------------
 
