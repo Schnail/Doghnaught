@@ -15,8 +15,8 @@ class GridObject:
     def __str__(self):
         return f"GridObject '{self.name}' at position {self.pos} with rotation {self.rot} containing {len(self.verts)} vertecies"
         
-    def makeVert(self, position : Vector3d, color : Vector3d) -> GridVertex:
-        newVert = GridVertex(len(self.verts), position, color, self)
+    def makeVert(self, position : Vector3d, normal : Vector3d, color : Vector3d) -> GridVertex:
+        newVert = GridVertex(len(self.verts), position, normal, color, self)
         self.verts.append(newVert)
         return newVert
     
@@ -56,7 +56,7 @@ class GridObject:
 #-------------------------------------------------------------------
 
 class GridVertex:
-    def __init__(self, index : int, position : Vector3d, normal : Vector3d = Vector3d(1,1,1), color : Vector3d = Vector3d(256,256,256), parent : GridObject = None):
+    def __init__(self, index : int, position : Vector3d, normal : Vector3d = Vector3d(1,1,1), color : Vector3d = Vector3d(255,255,255), parent : GridObject = None):
         self.id = index
         self.pos = position
         self.normal = normal.normalize()
