@@ -48,7 +48,7 @@ class GridObject:
     def makeFile(self):
         verts = []
         for vert in self.verts:
-            verts.append([vert.id, vert.pos, vert.color])
+            verts.append([vert.id, vert.pos.xyz, vert.normal.xyz, vert.color.xyz])
         content = [self.name, self.pos.xyz, self.rot.xyz, self.scale.xyz, verts]
         
         return json.dumps(content)
@@ -92,6 +92,6 @@ def loadGridObject(jsonobject) -> GridObject:
     scale = Vector3d(jsonobject[3][0],jsonobject[3][1],jsonobject[3][2])
     object = GridObject(name,pos,rot,scale,[])
     for x in jsonobject[4]:
-        object.makeVert(x[1],x[2])
+        object.makeVert(Vector3d(x[1][0],x[1][1],x[1][2]),Vector3d(x[2][0],x[2][1],x[2][2]),Vector3d(x[3][0],x[3][1],x[3][2]))
     
     return object

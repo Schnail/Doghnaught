@@ -17,10 +17,11 @@ DepthConvert = {
 }
 
 class GridCanvas:
-    def __init__(self, size : Vector2d, maxdepth : float = 64, lightangle : Vector3d = Vector3d(1,-1,1)):
+    def __init__(self, size : Vector2d, maxdepth : float = 64, lightangle : Vector3d = Vector3d(1,-1,1), perspectivefac : float = 1):
         self.size = size
         self.maxdepth = maxdepth
         self.light = lightangle.normalize()
+        self.perspective = perspectivefac
         self.cells : list[GridCell] = []
         self.makecells()
     
@@ -51,13 +52,16 @@ class GridCanvas:
         drawn = 0
         
         for vertex in object.verts:
-            pos = Vector2d(round(vertex.world().pos.x), round(vertex.world().pos.y))
+            pos = Vector2d(vertex.world().pos.x, vertex.world().pos.y)
+            centervec = (self.size / 2) - pos
+            pos = (pos + (centervec * self.perspective * 0.2)).round()
+            
             cell = self.cellAtPosition(pos)
             if isinstance(cell, GridCell):
                 if cell.depth > vertex.world().pos.z:
                     cell.depth = vertex.world().pos.z
                     cell.normal = vertex.world().normal
-                    cell.color = vertex.color * (1 - abs(dot(cell.normal, self.light)))
+                    cell.color = (vertex.color * (1 - abs(dot(cell.normal, self.light)))).round()
                     drawn += 1
                 else:
                     droped += 1
@@ -76,7 +80,7 @@ class GridCanvas:
             for sizex in range(0, self.size.x):
                 invY = self.size.y - 1 - sizey
                 cell = self.cellAtPosition(Vector2d(sizex,invY))
-                hex = f"{round(cell.color.x):x}{round(cell.color.y):x}{round(cell.color.z):x}"
+                hex = f"{cell.color.x:x}{cell.color.y:x}{cell.color.z:x}"
                 #char = DepthConvert[min(round(cell.depth / (self.maxdepth / 11)), 10)]
                 char = DepthConvert[round(cell.color.x / 255 * 10)]
                 line = line + char + char

@@ -64,6 +64,9 @@ class Vector2d:
     
     def normalize(self) -> Vector2d:
         return self / self.len()
+    
+    def round(self) -> Vector2d:
+        return Vector2d(round(self.x),round(self.y))
 
 #-------------------------------------------------------------------
 
@@ -141,10 +144,8 @@ class Vector3d:
     def normalize(self) -> Vector3d:
         return self / self.len()
     
-    def rotate(self, rotator : Vector3d) -> Vector3d:
-        
-        
-        return Vector3d()
+    def round(self) -> Vector3d:
+        return Vector3d(round(self.x),round(self.y),round(self.z))
     
 #-------------------------------------------------------------------   
        
