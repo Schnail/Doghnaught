@@ -199,7 +199,9 @@ def rotatevector(vector : Vector3d, rotator : Vector3d):
 
 #------------------------------------------------------------------- 
 
-test1 = Vector3d(0,1,0)
-test2 = Vector3d(90,0,0)
+if __name__ == "__main__":
 
-#print(rotatevector(test1,test2))
+    test1 = Vector3d(0,1,0)
+    test2 = Vector3d(90,0,0)
+
+    print(rotatevector(test1,test2))

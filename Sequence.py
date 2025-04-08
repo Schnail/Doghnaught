@@ -1,15 +1,15 @@
 from Viewer3D import *
 
 
-canvasSize : Vector2d = Vector2d(32,32)
-canvasDepth : int = 32
+canvasSize : Vector2d = Vector2d(16,16)
+canvasDepth : int = 16
 frames : int = 100
 
 #-------------------------------------------------------------------
 #procedualy creating example Cube Gridobject
 
-testCube = GridObject("TestCube", Vector3d(16,16,16), Vector3d(0,0,0), Vector3d(0.8,0.8,0.8), [])
-bounds = range(-7,8)
+testCube = GridObject("TestCube", Vector3d(8,8,8), Vector3d(0,0,0), Vector3d(0.8,0.8,0.8), [])
+bounds = range(-6,7)
 for x in bounds:
     for y in bounds:
         for z in bounds:
@@ -30,7 +30,11 @@ for x in bounds:
 
 testCube.rot = Vector3d(30,45,45)
 
+testDonut = GridObject("TestDonut", Vector3d(8,8,8), Vector3d(0,0,0), Vector3d(0.8,0.8,0.8), [])
+
+
 #-------------------------------------------------------------------
+#Canvas and animation loop
 
 objectToDraw = testCube
 
