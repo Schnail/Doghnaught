@@ -4,7 +4,7 @@
 This is a personal project to sharpen my understanding for operations in rendering.
 The goal was to create a short programm capable of editing and rendering primitive shapes on a 3D Canvas plus some additional features.
 The titel of this project is supposed to read "Donut" but I had a typo.
-This projekt is not meant to be overly performant as its completly written in python and therefore executed on the CPU only;
+This projekt is not meant to be overly performant as its completly written in python and therefore executed on the CPU only; 
 So not optimal for any vertex-transforming operations.
 
 
