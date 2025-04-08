@@ -1,4 +1,5 @@
 from Viewer3D import *
+from time import sleep
 
 
 canvasSize : Vector2d = Vector2d(16,16)
@@ -35,15 +36,25 @@ testDonut = GridObject("TestDonut", Vector3d(8,8,8), Vector3d(0,0,0), Vector3d(0
 
 #-------------------------------------------------------------------
 #Canvas and animation loop
+#the first frame or 'frame zero' will not be rendered
 
 objectToDraw = testCube
 
 testCanvas = GridCanvas(canvasSize, canvasDepth)
 testCanvas.draw(objectToDraw)
-print(testCanvas.out())
 
-for x in range(0,frames-1):
+for x in range(1,frames+1):
     testCanvas.clear()
-    objectToDraw.rot += Vector3d(7,5,3)
+    objectToDraw.rot += Vector3d(0,5,12)
     testCanvas.draw(objectToDraw)
+    print(f"Frame {x}/{frames}")
     print(testCanvas.out())
+    f = open(f"Frames/Frame{x}.txt", "wt")
+    f.write(testCanvas.out())
+    f.close()
+    
+for x in range(1,frames+1):
+    f = open(f"Frames/Frame{x}.txt", "rt")
+    print(f.read())
+    f.close()
+    sleep(0.05)
