@@ -23,7 +23,7 @@ class GridCanvas:
         self.light = lightangle.normalize()
         self.perspective = perspectivefac
         self.cells : list[GridCell] = []
-        self.makecells()
+        self.makeCells()
     
     #this is way too slow. better save every cell in 2d array.   
     def cellAtPosition(self, position : Vector2d) -> GridCell | None:
@@ -32,13 +32,13 @@ class GridCanvas:
                 return cell
         return None
     
-    def makecells(self) -> None:
+    def makeCells(self) -> None:
         for x in range(0, self.size.x):
             for y in range(0, self.size.y):
                 cell = GridCell(Vector2d(x,y), self.maxdepth)
                 self.cells.append(cell)
     
-    def clear(self) -> GridCanvas:
+    def clearCanvas(self) -> GridCanvas:
         for x in range(0, self.size.x):
             for y in range(0, self.size.y):
                 cell = self.cellAtPosition(Vector2d(x,y))
@@ -47,20 +47,20 @@ class GridCanvas:
                     
         return self
     
-    def draw(self, object : GridObject) -> GridCanvas:
+    def drawObject(self, object : GridObject) -> GridCanvas:
         droped = 0
         drawn = 0
         
         for vertex in object.verts:
-            pos = Vector2d(vertex.world().pos.x, vertex.world().pos.y)
+            pos = Vector2d(vertex.worldPosition().pos.x, vertex.worldPosition().pos.y)
             centervec = (self.size / 2) - pos
             pos = (pos + (centervec * self.perspective * 0.2)).round()
             
             cell = self.cellAtPosition(pos)
             if isinstance(cell, GridCell):
-                if cell.depth > vertex.world().pos.z:
-                    cell.depth = vertex.world().pos.z
-                    cell.normal = vertex.world().normal
+                if cell.depth > vertex.worldPosition().pos.z:
+                    cell.depth = vertex.worldPosition().pos.z
+                    cell.normal = vertex.worldPosition().normal
                     cell.color = (vertex.color * (1 - abs(dot(cell.normal, self.light)))).round()
                     drawn += 1
                 else:
@@ -73,7 +73,7 @@ class GridCanvas:
         #print("droped Verts:", droped)    
         return self
     
-    def out(self) -> str:
+    def outputImage(self) -> str:
         lines = []
         for sizey in range(0, self.size.y):
             line = ""    

@@ -41,16 +41,16 @@ testDonut = GridObject("TestDonut", Vector3d(8,8,8), Vector3d(0,0,0), Vector3d(0
 objectToDraw = testCube
 
 testCanvas = GridCanvas(canvasSize, canvasDepth)
-testCanvas.draw(objectToDraw)
+testCanvas.drawObject(objectToDraw)
 
 for x in range(1,frames+1):
-    testCanvas.clear()
+    testCanvas.clearCanvas()
     objectToDraw.rot += Vector3d(0,5,12)
-    testCanvas.draw(objectToDraw)
+    testCanvas.drawObject(objectToDraw)
     print(f"Frame {x}/{frames}")
-    print(testCanvas.out())
+    print(testCanvas.outputImage())
     f = open(f"Frames/Frame{x}.txt", "wt")
-    f.write(testCanvas.out())
+    f.write(testCanvas.outputImage())
     f.close()
     
 for x in range(1,frames+1):

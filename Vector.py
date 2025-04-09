@@ -13,7 +13,7 @@ class Vector2d:
     
     def __iter__(self):
         self.i = 0
-        return self.xy[self.i]
+        return self
     
     def __next__(self):
         if self.i <= 1:
@@ -198,6 +198,7 @@ def rotatevector(vector : Vector3d, rotator : Vector3d):
     return Vector3d(round(float(v_rotated[0]),15),round(float(v_rotated[1]),15),round(float(v_rotated[2]),15))
 
 #------------------------------------------------------------------- 
+#testing
 
 if __name__ == "__main__":
 

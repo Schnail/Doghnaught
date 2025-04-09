@@ -3,17 +3,17 @@ from Vector import *
 import json
 
 class GridObject:
-    def __init__(self, name : str, position : Vector3d , rotation : Vector3d, scale : Vector3d, vertecies : list[GridVertex], parent : GridObject = None):
+    def __init__(self, name : str, position : Vector3d , rotation : Vector3d, scale : Vector3d, vertices : list[GridVertex], parent : GridObject = None):
         self.name = name
         self.pos = position
         self.bpos = position
         self.rot = rotation
         self.scale = scale
-        self.verts = vertecies
+        self.verts = vertices
         self.parent = parent
         
     def __str__(self):
-        return f"GridObject '{self.name}' at position {self.pos} with rotation {self.rot} containing {len(self.verts)} vertecies"
+        return f"GridObject '{self.name}' at position {self.pos} with rotation {self.rot} containing {len(self.verts)} vertices"
         
     def makeVert(self, position : Vector3d, normal : Vector3d, color : Vector3d) -> GridVertex:
         newVert = GridVertex(len(self.verts), position, normal, color, self)
@@ -27,11 +27,11 @@ class GridObject:
             vert.id += -1
         return oldVert
     
-    def move(self, vector : Vector3d) -> GridObject:
+    def addPosition(self, vector : Vector3d) -> GridObject:
         self.pos += vector
         return self
     
-    def addrotation(self, rotation : Vector3d) -> GridObject:
+    def addRotation(self, rotation : Vector3d) -> GridObject:
         self.rot += rotation
         return self
     
@@ -66,15 +66,15 @@ class GridVertex:
     def __str__(self):
         return f"GridVertex with id {self.id} at local position {self.pos} with color {self.color}"
         
-    def move(self, vector : Vector3d) -> GridVertex:
+    def addPosition(self, vector : Vector3d) -> GridVertex:
         self.pos += vector
         return self
     
-    def paint(self, color : Vector3d) -> GridVertex:
+    def changeColor(self, color : Vector3d) -> GridVertex:
         self.color = color
         return self
     
-    def world(self) -> GridVertex:
+    def worldPosition(self) -> GridVertex:
         wpos = self.pos * self.parent.scale
         wpos = rotatevector(wpos, self.parent.rot)
         wpos += self.parent.pos 
@@ -84,7 +84,7 @@ class GridVertex:
         
 #-------------------------------------------------------------------
 
-#ugly as f-. might change later but need for testing
+#not preferable. might change later but need for testing
 def loadGridObject(jsonobject) -> GridObject:
     name = jsonobject[0] 
     pos = Vector3d(jsonobject[1][0],jsonobject[1][1],jsonobject[1][2])
