@@ -54,13 +54,17 @@ Lighting is directional and based on dot product between vertex normals and a li
 
 **Requirements:**
 
-Python 3.10+
-NumPy
-Make sure you have a folder named 'Frames' in the project's directory
+```text
+-Python 3.10+
+-NumPy
+-Make sure you have a folder named 'Frames' in the project's directory
+```
 
 **Run the sample animation:**
 
+```text
 -run Sequence.py
+```
 
 This will generate 100 Frames of a rotating cube one at a time in your console and save them as .txt in Frames/ and afterwards play them back as an animation
 
